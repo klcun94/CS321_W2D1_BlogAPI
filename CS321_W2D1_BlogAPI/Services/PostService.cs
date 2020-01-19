@@ -21,6 +21,12 @@ namespace CS321_W2D1_BlogAPI.Services
                 Id = 2,
                 Title = "My second blog post",
                 Body = "Blah blah blah"
+            },
+            new Post
+            {
+                Id=3,
+                Title ="Kendall's added blog post",
+                Body = "Hello"
             }
         };
         // keep track of next id number
@@ -31,7 +37,8 @@ namespace CS321_W2D1_BlogAPI.Services
             // assign an id (and then increment _nextId for next time)
             post.Id = _nextId++;
             // store in the list of Posts
-            // TODO: add the new post to the list of posts (_posts)
+            // add the new post to the list of posts (_posts)
+            _posts.Add(post);
             // return the new Post with Id filled in
             return post;
         }
@@ -39,31 +46,39 @@ namespace CS321_W2D1_BlogAPI.Services
         public Post Get(int id)
         {
             // return the specified Post or null if not found
-            // TODO: use FirstOrDefault() to find the Post by id in _posts and return it
+            // use FirstOrDefault() to find the Post by id in _posts and return it
+            var post = _posts.FirstOrDefault(p => p.Id == id);
+            if (post == null) return null;
+            return post;
         }
 
         public IEnumerable<Post> GetAll()
         {
-            // TODO: return the full list of posts
+            // return the full list of posts
+            return _posts;
         }
 
         public Post Update(Post updatedPost)
         {
             // get the Post object in the current list with this id 
-            // TODO: find the post to update in the list, using updatedPost.Id, and assign to currentPost
+            // find the post to update in the list, using updatedPost.Id, and assign to currentPost
+            var currentPost = _posts.FirstOrDefault(p => p.Id == updatedPost.Id);
 
             // return null if the Post to update isn't found
             if (currentPost == null) return null;
 
             // copy the property values from the updated post into the current post object
-            // TODO: copy the values in updatedPost to the post you found in the list
-
+            // copy the values in updatedPost to the post you found in the list
+            currentPost.Title = updatedPost.Title;
+            currentPost.Body = updatedPost.Body;
             return currentPost;
         }
 
         public void Remove(Post post)
         {
-            // TODO: remove the post from _posts
+            // remove the post from _posts
+            var currentPost = _posts.FirstOrDefault(p => p.Id == post.Id);
+            if (currentPost != null) _posts.Remove(currentPost);
         }
     }
 }
